@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>Chatroom!</title>
+		<link type="text/css" rel="stylesheet" href="style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script>
+			$(document).ready(function(){
+				var user = prompt("Enter your Name!");
+				var socket= io.connect();
+
+
+
+				$('form').submit( function(){
+					socket.emit("new message", {post: $(this).serializeArray(), users: user} );
+
+
+					return false;
+				});
+				socket.on('messages' , function(test){
+					for (x in test.boxes){
+						//console.log(test.boxes[x]['name']);
+						//console.log(test.boxes[x]['message'])
+						
+					}
+						console.log();
+						var asdf = test.boxes.length-1;
+						$('#messages').append(" <p> " + test.boxes[asdf]['name'] + " says: "  +test.boxes[asdf]['message'] + "</p>");
+						
+
+					
+					
+					
+					
+				});
+
+			})
+			
+
+		</script>
+	</head>
+	<body>
+		
+
+		<h1>Conversation Board</h1>
+		<div id = 'box'>
+			<% for ( x in dataz){ %>
+				<p> <%= dataz[x].name %> says: 
+					<%= dataz[x].message  %>
+				</p>
+			<% } %>
+			<div id="messages"></div></br>
+		</div>
+
+		<form action="/" method="post">
+			<input id="box2" type="text" value="Enter Message" name="message">
+			<input type="submit" Value="Enter">
+		</form>
+	</body>
+</html>
